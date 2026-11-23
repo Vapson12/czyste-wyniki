@@ -1,0 +1,192 @@
+.cw-active [data-cw-hide="hide"] {
+  display: none !important;
+}
+
+.cw-active [data-cw-hide="dim"] {
+  position: relative;
+  opacity: 0.35;
+  filter: grayscale(1);
+  transition: opacity 0.15s;
+}
+.cw-active [data-cw-hide="dim"]:hover {
+  opacity: 0.9;
+  filter: none;
+}
+.cw-active [data-cw-hide="dim"]::before,
+.cw-active #cw-extra > [data-cw-badge]:not([data-cw-hide])::before {
+  content: attr(data-cw-badge);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #222;
+  color: #fff;
+  font: 600 11px/1.6 system-ui, sans-serif;
+  letter-spacing: 0.02em;
+}
+
+#cw-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 8px 0 14px;
+  padding: 12px 16px;
+  border: 1px solid #dde3e1;
+  border-left: 4px solid #13795b;
+  border-radius: 10px;
+  background: #fff;
+  color: #1b2a41;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.45;
+}
+#cw-bar .cw-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 15px;
+}
+#cw-bar .cw-logo svg {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+#cw-bar .cw-text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  flex: 1 1 320px;
+  color: #3d4a5c;
+}
+#cw-bar .cw-text b,
+#cw-bar .cw-savings b {
+  color: #1b2a41;
+  font-weight: 700;
+}
+#cw-bar .cw-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-left: auto;
+}
+#cw-bar .cw-toggle {
+  padding: 6px 14px;
+  border: 1px solid #c9d3cf;
+  border-radius: 8px;
+  background: #fff;
+  color: #1b2a41;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+#cw-bar .cw-toggle:hover {
+  border-color: #13795b;
+  color: #13795b;
+}
+#cw-bar .cw-next {
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: #13795b;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+}
+#cw-bar .cw-next:hover {
+  background: #0f6249;
+}
+#cw-bar .cw-toggle:focus-visible,
+#cw-bar .cw-next:focus-visible {
+  outline: 2px solid #2f6fdb;
+  outline-offset: 2px;
+}
+#cw-bar .cw-savings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 12px;
+  flex-basis: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #e3f3ec;
+  color: #3d4a5c;
+  font-size: 13px;
+}
+#cw-bar .cw-savings .cw-part:first-child {
+  color: #13795b;
+  font-size: 15px;
+}
+#cw-bar .cw-savings .cw-part:first-child b {
+  color: #13795b;
+  font-size: 17px;
+}
+#cw-bar .cw-savings[hidden] {
+  display: none;
+}
+
+.cw-separator {
+  list-style: none;
+  grid-column: 1 / -1;
+  margin: 14px 0 8px;
+  padding: 0 0 6px;
+  border-bottom: 1px solid #dde3e1;
+  color: #5b6573;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+#cw-extra {
+  margin-top: 0;
+}
+
+/* reklamy w trybie uczciwego sortowania: widoczne, ale wyraźnie oznaczone */
+.cw-active #cw-extra > [data-cw-badge]:not([data-cw-hide]) {
+  position: relative;
+  outline: 2px dashed #e0a800;
+  outline-offset: -2px;
+}
+.cw-active #cw-extra > [data-cw-badge]:not([data-cw-hide])::before {
+  background: #e0a800;
+  color: #222;
+}
+
+
+/* cena za jednostkę dopisana na karcie (bez zmieniania kodu karty Allegro) */
+.cw-active li[data-cw-unit] {
+  position: relative;
+}
+.cw-active li[data-cw-unit]::after {
+  content: attr(data-cw-unit);
+  position: absolute;
+  left: 8px;
+  top: 36px;
+  z-index: 2;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #e8f5ee;
+  border: 1px solid #b7dfc8;
+  color: #13795b;
+  font: 600 12px/1.6 system-ui, sans-serif;
+  pointer-events: none;
+}
+
+/* bloki reklamowe poza listą (banery, lewa kolumna "Sponsorowane", wideo) – te same selektory co displayAds w selectors.js */
+.cw-ads-hide [data-box-name^="allegro.ads"],
+.cw-ads-hide [data-box-name^="ads."],
+.cw-ads-hide [data-box-name^="leftpanel_offers_ads"] {
+  display: none !important;
+}
+.cw-ads-dim [data-box-name^="allegro.ads"],
+.cw-ads-dim [data-box-name^="ads."],
+.cw-ads-dim [data-box-name^="leftpanel_offers_ads"] {
+  opacity: 0.3;
+  filter: grayscale(1);
+}

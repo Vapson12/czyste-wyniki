@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "Czyste Wyniki – bez promowanych na Allegro",
+  "short_name": "Czyste Wyniki",
+  "version": "1.0.0",
+  "description": "Ukrywa oferty promowane i sponsorowane w wynikach Allegro i dociąga zwykłe oferty z kolejnych stron, żeby sortowanie po cenie znów miało sens.",
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "scripts": [
+      "src/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://allegro.pl/*"
+      ],
+      "js": [
+        "src/selectors.js",
+        "src/content.js"
+      ],
+      "css": [
+        "src/content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Czyste Wyniki",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "czyste-wyniki@vapson12",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
+    }
+  }
+}

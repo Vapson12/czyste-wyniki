@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="top">
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="8" fill="currentColor"/>
+      <path d="M9 11h14M9 16h9M9 21h14" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M20 16l1.6 1.6L25 14.2" stroke="#FFD84D" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h1>Czyste Wyniki</h1>
+    <label class="switch big" title="Włącz lub wyłącz dodatek">
+      <input type="checkbox" id="enabled" role="switch" aria-label="Dodatek włączony">
+      <span class="track"><span class="thumb"></span></span>
+    </label>
+  </header>
+
+  <section class="receipt" aria-label="Podsumowanie ostatniej strony wyników">
+    <div class="receipt-body" id="receipt" hidden>
+      <dl>
+        <div class="line"><dt>Reklamy ukryte</dt><dd id="pageAds">0</dd></div>
+        <div class="line"><dt>Odfiltrowane</dt><dd id="pageFiltered">0</dd></div>
+        <div class="line" id="rowPlain"><dt>Najtańsza zwykła</dt><dd id="cheapestPlain">–</dd></div>
+        <div class="line" id="rowAd"><dt>Najtańsza promowana</dt><dd id="cheapestAd">–</dd></div>
+      </dl>
+      <div class="total" id="rowSavings" hidden>
+        <span>Oszczędzasz</span>
+        <strong id="savings">0,00 zł</strong>
+      </div>
+    </div>
+    <p class="receipt-empty" id="receiptEmpty">
+      Wyszukaj coś na Allegro, a tu pojawi się rachunek: ile reklam ukryto i ile możesz zaoszczędzić.
+    </p>
+    <p class="receipt-foot">Od instalacji ukryto <b id="total">0</b> reklam</p>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="Ustawienia">
+    <button role="tab" id="tab-ads" aria-controls="panel-ads" aria-selected="true">Reklamy</button>
+    <button role="tab" id="tab-prices" aria-controls="panel-prices" aria-selected="false">Ceny</button>
+    <button role="tab" id="tab-filters" aria-controls="panel-filters" aria-selected="false">Filtry</button>
+  </nav>
+
+  <main class="settings">
+    <!-- Reklamy -->
+    <section role="tabpanel" id="panel-ads" aria-labelledby="tab-ads">
+      <div class="field">
+        <p class="field-label" id="lbl-mode">Co robić z reklamami</p>
+        <div class="seg" data-key="mode" role="group" aria-labelledby="lbl-mode">
+          <button data-value="hide">Ukryj</button>
+          <button data-value="dim">Przyciemnij</button>
+          <button data-value="fair">Sortuj uczciwie</button>
+        </div>
+        <p class="hint" id="modeHint"></p>
+      </div>
+
+      <label class="row">
+        <span class="row-text"><b>Oferty promowane</b><small>Karty z etykietą „Promowane”</small></span>
+        <span class="switch"><input type="checkbox" id="hidePromoted" role="switch"><span class="track"><span class="thumb"></span></span></span>
+      </label>
+      <label class="row">
+        <span class="row-text"><b>Sponsorowane i banery</b><small>Także lewa kolumna i reklamy wideo</small></span>
+        <span class="switch"><input type="checkbox" id="hideSponsored" role="switch"><span class="track"><span class="thumb"></span></span></span>
+      </label>
+      <label class="row">
+        <span class="row-text"><b>Rekomendacje i poradniki</b><small>Bloki „Rekomendacje dla Ciebie” i artykuły</small></span>
+        <span class="switch"><input type="checkbox" id="hideClutter" role="switch"><span class="track"><span class="thumb"></span></span></span>
+      </label>
+      <div class="row">
+        <label class="row-text" for="fillPages"><b>Szukaj zwykłych ofert dalej</b><small id="lbl-pages">Stron naraz:</small></label>
+        <div class="seg mini" id="fieldExtraPages" data-key="maxExtraPages" data-type="number" role="group" aria-labelledby="lbl-pages">
+          <button data-value="1">1</button>
+          <button data-value="2">2</button>
+          <button data-value="3">3</button>
+        </div>
+        <span class="switch"><input type="checkbox" id="fillPages" role="switch"><span class="track"><span class="thumb"></span></span></span>
+      </div>
+    </section>
+
+    <!-- Ceny -->
+    <section role="tabpanel" id="panel-prices" aria-labelledby="tab-prices" hidden>
+      <div class="field">
+        <p class="field-label" id="lbl-sort">Sortuj dociągnięte oferty po</p>
+        <div class="seg" data-key="sortBy" role="group" aria-labelledby="lbl-sort">
+          <button data-value="price">Cenie</button>
+          <button data-value="total">Z dostawą</button>
+          <button data-value="unit">Za kg, l, szt.</button>
+        </div>
+      </div>
+      <label class="row">
+        <span class="row-text"><b>Cena za kg, litr lub sztukę</b><small>Liczona z tytułu, np. „6 x 1,5 l”</small></span>
+        <span class="switch"><input type="checkbox" id="showUnitPrice" role="switch"><span class="track"><span class="thumb"></span></span></span>
+      </label>
+      <label class="row">
+        <span class="row-text"><b>Podsumowanie oszczędności</b><small>Najtańsza zwykła oferta kontra promowana</small></span>
+        <span class="switch"><input type="checkbox" id="showSavings" role="switch"><span class="track"><span class="thumb"></span></span></span>
+      </label>
+      <label class="row">
+        <span class="row-text"><b>Licznik na ikonie</b><small>Ile ofert ukryto na otwartej stronie</small></span>
+        <span class="switch"><input type="checkbox" id="showBadge" role="switch"><span class="track"><span class="thumb"></span></span></span>
+      </label>
+    </section>
+
+    <!-- Filtry -->
+    <section role="tabpanel" id="panel-filters" aria-labelledby="tab-filters" hidden>
+      <div class="field">
+        <label class="field-label" for="phraseInput">Ukryj oferty, w których tytule jest</label>
+        <div class="chips" id="chips">
+          <input id="phraseInput" type="text" placeholder="np. etui, gumki" autocomplete="off">
+        </div>
+        <p class="hint">Enter dodaje słowo. „gumki” złapie też „gumek”.</p>
+      </div>
+
+      <div class="field">
+        <p class="field-label" id="lbl-rating">Najniższa ocena produktu</p>
+        <div class="seg small" data-key="minRating" data-type="number" role="group" aria-labelledby="lbl-rating">
+          <button data-value="0">Każda</button>
+          <button data-value="3.5">3,5★</button>
+          <button data-value="4">4,0★</button>
+          <button data-value="4.5">4,5★</button>
+          <button data-value="4.8">4,8★</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <p class="field-label" id="lbl-reviews">Co najmniej tyle ocen</p>
+        <div class="seg small" data-key="minReviews" data-type="number" role="group" aria-labelledby="lbl-reviews">
+          <button data-value="0">Obojętne</button>
+          <button data-value="1">1</button>
+          <button data-value="10">10</button>
+          <button data-value="50">50</button>
+          <button data-value="200">200</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <p class="field-label" id="lbl-delivery">Dostawa najpóźniej w ciągu</p>
+        <div class="seg small" data-key="maxDeliveryDays" data-type="number" role="group" aria-labelledby="lbl-delivery">
+          <button data-value="0">Obojętne</button>
+          <button data-value="2">2 dni</button>
+          <button data-value="3">3 dni</button>
+          <button data-value="7">Tygodnia</button>
+          <button data-value="14">2 tygodni</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>
